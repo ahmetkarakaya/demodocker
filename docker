@@ -1,0 +1,28 @@
+#Dockerfile'ın bulunduğu dizinde aşağıdaki komut ile imaj oluşturulur.
+>docker build -t springio/gs-spring-boot-docker .
+
+
+#tag atma
+docker tag springio/gs-spring-boot-docker:latest springio/gs-spring-boot-docker:1.0.0
+
+
+#docker imajı başka bir yere kopyalamak için tar'lama
+docker save -o demodocker-1.0.0.tar springio/gs-spring-boot-docker:1.0.0
+
+:Downloads ttahkarakaya$ ll -h demodocker-1.0.0.tar 
+-rw-------  1 ttahkarakaya  1530679350   118M Jul 26 16:28 demodocker-1.0.0.tar
+
+
+#
+--delete/remove all dangling images
+docker rmi $(docker images -f "dangling=true" -q)
+
+
+#tar'dan manuel load etme
+docker load -i demodocker-1.0.0.tar
+
+#
+docker tag springio/gs-spring-boot-docker:1.0.0 artifactory.turkcell.com.tr/local-docker-dist-dev/com/turkcell/bip-konferans-appl/demodocker:1.0.0
+
+
+docker push artifactory.turkcell.com.tr/local-docker-dist-dev/com/turkcell/bip-konferans-appl/demodocker:1.0.0
